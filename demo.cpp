@@ -1,4 +1,3 @@
-// leetcode question 532
 #include <iostream>
 #include <vector>
 using namespace std;
