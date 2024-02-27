@@ -61,4 +61,7 @@ int main()
     string i = "what the fuck";
     i.erase(9, 4);
     cout << i;
+
+    // convert string to int
+    stoi();
 }
