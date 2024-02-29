@@ -1,6 +1,12 @@
 #include <iostream>
 #include <string>
+#include <algorithm>
 using namespace std;
+
+bool cmp(char first, char second)
+{
+    return first > second;
+}
 
 int main()
 {
@@ -60,8 +66,14 @@ int main()
 
     string i = "what the fuck";
     i.erase(9, 4);
-    cout << i;
+    cout << i << endl;
 
     // convert string to int
-    stoi();
+    // stoi();
+
+    // sort the string
+    // here cmp is custom oprerator that helps to give order a string desc or asc
+    string z = "babbar";
+    sort(z.begin(), z.end(), cmp);
+    cout << z;
 }
