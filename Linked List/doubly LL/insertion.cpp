@@ -5,22 +5,26 @@ class Node
 {
 public:
     int data;
+    Node *prev;
     Node *next;
 
     Node()
     {
-        this->data = 1;
+        this->data = 0;
+        this->prev = NULL;
         this->next = NULL;
     }
     Node(int data)
     {
         this->data = data;
+        this->prev = NULL;
         this->next = NULL;
     }
 };
 
-// find length
-int findlength(Node *head)
+// find length of LL
+
+int length(Node *&head)
 {
     Node *temp = head;
     int len = 0;
@@ -32,8 +36,8 @@ int findlength(Node *head)
     return len;
 }
 
-// print node
-void printNode(Node *head)
+// print LL
+void print(Node *&head)
 {
     Node *temp = head;
     while (temp != NULL)
@@ -43,7 +47,8 @@ void printNode(Node *head)
     }
 }
 
-// insert node at head
+// insert at head
+
 void insertAthead(Node *&head, Node *&tail, int data)
 {
     if (head == NULL)
@@ -54,13 +59,14 @@ void insertAthead(Node *&head, Node *&tail, int data)
         return;
     }
     Node *newNode = new Node(data);
-
     newNode->next = head;
+    head->prev = newNode;
     head = newNode;
 }
 
-// insert node at tail
-void insertAttail(Node *&head, Node *&tail, int data)
+// insert at tail
+
+void insertAtTail(Node *&head, Node *&tail, int data)
 {
     if (head == NULL)
     {
@@ -70,65 +76,68 @@ void insertAttail(Node *&head, Node *&tail, int data)
         return;
     }
     Node *newNode = new Node(data);
-
+    newNode->prev = tail;
     tail->next = newNode;
-
     tail = newNode;
 }
 
-// insert at any position
+// insert at position
 
-void insertAtposition(int position, Node *&head, Node *&tail, int data)
+void insertAtPosition(Node *&head, Node *&tail, int data, int position)
 {
     if (head == NULL)
     {
-        Node *newNode = new Node();
+        Node *newNode = new Node(data);
         head = newNode;
         tail = newNode;
         return;
     }
-    if (position == 0)
+    if (position == 1)
     {
         insertAthead(head, tail, data);
         return;
     }
-    int len = findlength(head);
+    int len = length(head);
+
     if (position >= len)
     {
-        insertAttail(head, tail, data);
+        insertAtTail(head, tail, data);
         return;
     }
 
+    // to find previos node
     int i = 1;
-    Node *prev = head;
-    while (i < position)
+    Node *prevNode = head; // temp node
+    while (i < position - 1)
     {
-        prev = prev->next;
+        prevNode = prevNode->next;
         i++;
     }
-
-    Node *curr = prev->next;
-
+    Node *curr = prevNode->next;
     Node *newNode = new Node(data);
+    prevNode->next = newNode;
+    newNode->prev = prevNode;
 
+    curr->prev = newNode;
     newNode->next = curr;
-
-    prev->next = newNode;
 }
-
 int main()
 {
-    Node *head = NULL;
-    Node *tail = NULL;
 
-    insertAthead(head, tail, 10);
-    insertAthead(head, tail, 20);
-    insertAthead(head, tail, 30);
-    insertAthead(head, tail, 40);
-    insertAttail(head, tail, 33);
-    insertAttail(head, tail, 35);
+    Node *first = new Node(10);
+    Node *second = new Node(20);
+    Node *third = new Node(30);
 
-    insertAtposition(2, head, tail, 101);
+    first->prev = NULL;
+    first->next = second;
 
-    printNode(head);
+    second->prev = first;
+    second->next = third;
+
+    third->prev = second;
+
+    insertAthead(first, third, 101);
+    insertAtTail(first, third, 33);
+    insertAtPosition(first, third, 501, 2);
+    print(first);
 }

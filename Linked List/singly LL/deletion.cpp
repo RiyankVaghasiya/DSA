@@ -84,8 +84,8 @@ int main()
     node2->next = node3;
     node3->next = node4;
 
-    printNode(node1);
+    // printNode(node1);
 
-    deleteNode(2, node1, node4);
+    deleteNode(, node1, node4);
     printNode(node1);
 }
