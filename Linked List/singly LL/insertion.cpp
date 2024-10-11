@@ -77,7 +77,6 @@ void insertAttail(Node *&head, Node *&tail, int data)
 }
 
 // insert at any position
-
 void insertAtposition(int position, Node *&head, Node *&tail, int data)
 {
     if (head == NULL)
@@ -87,7 +86,7 @@ void insertAtposition(int position, Node *&head, Node *&tail, int data)
         tail = newNode;
         return;
     }
-    if (position == 0)
+    if (position == 1)
     {
         insertAthead(head, tail, data);
         return;
@@ -99,7 +98,7 @@ void insertAtposition(int position, Node *&head, Node *&tail, int data)
         return;
     }
 
-    int i = 1;
+    int i = 2;
     Node *prev = head;
     while (i < position)
     {
@@ -116,19 +115,56 @@ void insertAtposition(int position, Node *&head, Node *&tail, int data)
     prev->next = newNode;
 }
 
+// insert the value before the value x
+void insertAtValue(Node *&head, int x)
+{
+    if (head == NULL)
+    {
+        return;
+    }
+    if (head->data == x)
+    {
+        Node *newNode = new Node(0);
+        newNode->next = head;
+        head = newNode;
+        return;
+    }
+    Node *temp = head;
+    while (temp->next != NULL)
+    {
+        if (temp->next->data == x)
+        {
+            Node *newNode = new Node(0);
+            newNode->next = temp->next;
+            temp->next = newNode;
+            break;
+        }
+        temp = temp->next;
+    }
+    return;
+}
 int main()
 {
-    Node *head = NULL;
-    Node *tail = NULL;
+    // Node *head = NULL;
+    // Node *tail = NULL;
 
-    insertAthead(head, tail, 10);
-    insertAthead(head, tail, 20);
-    insertAthead(head, tail, 30);
-    insertAthead(head, tail, 40);
-    insertAttail(head, tail, 33);
-    insertAttail(head, tail, 35);
+    // insertAthead(head, tail, 10);
+    // insertAthead(head, tail, 20);
+    // insertAthead(head, tail, 30);
+    // insertAthead(head, tail, 40);
+    // insertAttail(head, tail, 33);
+    // insertAttail(head, tail, 35);
 
-    insertAtposition(2, head, tail, 101);
+    Node *first = new Node(10);
+    Node *second = new Node(20);
+    Node *third = new Node(30);
 
-    printNode(head);
+    first->next = second;
+    second->next = third;
+    third->next = NULL;
+
+    // insertAtposition(2, first, third, 101);
+    insertAtValue(first, 10);
+
+    printNode(first);
 }

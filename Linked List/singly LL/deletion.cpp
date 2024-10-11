@@ -73,6 +73,85 @@ void deleteNode(int position, Node *&head, Node *&tail)
     }
 }
 
+// delete tail of ll
+void deletetail(Node *&head, Node *&tail)
+{
+    if (head == NULL || head->next == NULL)
+    {
+        cout << "linked list is empty" << endl;
+        return;
+    }
+    Node *temp = head;
+    while (temp->next->next != NULL)
+    {
+        temp = temp->next;
+    }
+    delete temp->next;
+    temp->next = NULL;
+    return;
+}
+
+// delete kth element of node
+void deleteFromPosition(Node *&head, Node *&tail, int position)
+{
+    int len = findlength(head);
+    if (head == NULL)
+    {
+        return;
+    }
+    if (position > len)
+    {
+        return;
+    }
+    if (position == 1)
+    {
+        Node *temp = head;
+        head = head->next;
+        delete temp;
+        return;
+    }
+    Node *temp = head;
+    int count = 0;
+    Node *prev = NULL;
+    while (temp != NULL)
+    {
+        count++;
+        if (count == position)
+        {
+            prev->next = prev->next->next;
+            delete temp;
+            break;
+        }
+        prev = temp;
+        temp = temp->next;
+    }
+    return;
+}
+
+void deleteValue(Node *&head, int value)
+{
+
+    Node *prev = NULL;
+    Node *temp = head;
+    if (head->data == value)
+    {
+        head = head->next;
+        delete temp;
+        return;
+    }
+    while (temp != NULL)
+    {
+        if (temp->data == value)
+        {
+            prev->next = prev->next->next;
+            delete temp;
+            break;
+        }
+        prev = temp;
+        temp = temp->next;
+    }
+    return;
+}
 int main()
 {
     Node *node1 = new Node(10);
@@ -86,6 +165,8 @@ int main()
 
     // printNode(node1);
 
-    deleteNode(, node1, node4);
+    // deletetail(node1, node4);
+    // deleteFromPosition(node1, node4, 3);
+    deleteValue(node1, 40);
     printNode(node1);
 }

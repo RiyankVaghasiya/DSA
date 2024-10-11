@@ -48,80 +48,98 @@ void print(Node *&head)
 
 // delete at head
 
-void deleteAthead(Node *&head, Node *&tail)
+void deleteAthead(Node *&head)
 {
     if (head == NULL)
     {
-        cout << "Linked List is empty";
+        return;
+    }
+    if (head->next == NULL)
+    {
+        delete head;
         return;
     }
     Node *temp = head;
     head = head->next;
-    head->prev = NULL;
     temp->next = NULL;
-    delete temp;
-}
-
-// delete at tail
-
-void deleteAttail(Node *&head, Node *&tail)
-{
-    if (head == NULL)
-    {
-        cout << "Linked List is empty";
-        return;
-    }
-
-    Node *temp = tail;
-    tail = tail->prev;
-    temp->prev = NULL;
-    tail->next = NULL;
+    head->prev = NULL;
     delete temp;
     return;
 }
+// delete at tail
 
-// delete at any position
-
-void deleteAtPosition(Node *&head, Node *&tail, int position)
+void deleteAttail(Node *&head)
 {
     if (head == NULL)
     {
-        cout << "Linked List is empty";
         return;
     }
+    if (head->next == NULL)
+    {
+        delete head;
+        return;
+    }
+    Node *temp = head;
+    Node *back = NULL;
+    while (temp->next != NULL)
+    {
+        back = temp;
+        temp = temp->next;
+    }
+    back->next = NULL;
+    temp->prev = NULL;
+    delete temp;
+    return;
+}
+// delete at any position
 
+void deleteAtPosition(Node *&head, int position)
+{
+    if (head == NULL)
+    {
+        return;
+    }
+    if (head->next == NULL)
+    {
+        delete head;
+        return;
+    }
     if (position == 1)
     {
-        deleteAthead(head, tail);
+        Node *temp = head;
+        head = head->next;
+        temp->next = NULL;
+        head->prev = NULL;
+        delete temp;
         return;
     }
     int len = length(head);
-
-    if (position > len)
-    {
-        cout << "please enter valid position";
-    }
-
     if (position == len)
     {
-        deleteAttail(head, tail);
-        return;
+        deleteAttail(head);
     }
 
-    Node *prevNode = head;
+    Node *temp = head;
+    Node *back = head;
     int i = 1;
-    while (i < position - 1)
+    while (temp->next != NULL)
     {
-        prevNode = prevNode->next;
-        i++;
-    }
-    Node *temp = prevNode->next;
-    Node *curr = temp->next;
-    temp->next = NULL;
-    curr->prev = prevNode;
-    prevNode->next = curr;
-}
+        if (position == i)
+        {
+            Node *front = temp->next;
+            back->next = front;
+            temp->prev = NULL;
 
+            front->prev = back;
+            temp->next = NULL;
+            delete temp;
+            return;
+        }
+        i++;
+        back = temp;
+        temp = temp->next;
+    }
+}
 int main()
 {
     Node *first = new Node(10);
@@ -141,10 +159,10 @@ int main()
     fourth->prev = third;
     fourth->next = NULL;
 
-    // deleteAthead(first, fourth);
+    // deleteAthead(first);
 
-    // deleteAttail(first, fourth);
+    // deleteAttail(first);
 
-    deleteAtPosition(first, fourth, 3);
+    deleteAtPosition(first, 1);
     print(first);
 }
